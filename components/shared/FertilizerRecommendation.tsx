@@ -1,20 +1,57 @@
-'use client';
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+"use client";
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Command, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import axios from 'axios';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import axios from "axios";
+import SpinnerWithStyle from "./Spinner";
 
-const cropOptions = ['Maize', 'Sugarcane', 'Cotton', 'Tobacco', 'Rice'];
-const soilOptions = ['Loamy', 'Clay', 'Sandy', 'Peaty', 'Chalky'];
+const cropOptions = [
+  "Barley",
+  "Cotton",
+  "Ground Nuts",
+  "Maize",
+  "Millets",
+  "Paddy",
+  "Oil seeds",
+  "Pulses",
+  "Sugarcane",
+  "Tobacco",
+  "Wheat",
+  "Coffee",
+  "Kidney Beans",
+  "Orange",
+  "Pomegranate",
+  "Rice",
+  "Watermelon",
+];
+
+const soilOptions = ["Red", "Black", "Loamy", "Sandy", "Clayey"];
 
 const FertilizerRecommendation = () => {
   const [manualInput, setManualInput] = useState<boolean>(false);
-  const [fertilizerRecommendation, setFertilizerRecommendation] = useState<string>(''); 
+  const [fertilizerRecommendation, setFertilizerRecommendation] =
+    useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   // State for manual input
   const [N, setN] = useState<number>(77);
@@ -25,8 +62,8 @@ const FertilizerRecommendation = () => {
   const [moisture, setMoisture] = useState<number>(39);
 
   // Always manually entered values
-  const [cropType, setCropType] = useState<string>('');
-  const [soilType, setSoilType] = useState<string>('');
+  const [cropType, setCropType] = useState<string>("");
+  const [soilType, setSoilType] = useState<string>("");
 
   // Popover open state
   const [cropPopoverOpen, setCropPopoverOpen] = useState<boolean>(false);
@@ -35,9 +72,10 @@ const FertilizerRecommendation = () => {
   // Handle recommendation request
   const handleRecommend = async () => {
     if (!cropType || !soilType) {
-      alert('Please select the crop type and soil type');
+      alert("Please select the crop type and soil type");
       return;
     }
+    setIsLoading(true);
 
     try {
       if (!manualInput) {
@@ -59,19 +97,24 @@ const FertilizerRecommendation = () => {
         Temperature: temperature,
         Humidity: humidity,
         Moisture: moisture,
-        Nitrogen:N,
-        Phosphorous:P,
-        Potassium:K,
-        Crop_Code:cropType,
-        Soil_Code:soilType
+        Nitrogen: N,
+        Phosphorous: P,
+        Potassium: K,
+        Crop_Code: cropType,
+        Soil_Code: soilType,
       };
 
-      const response = await axios.post('https://fertilizerrecommendationapi-2.onrender.com/post', data);
+      const response = await axios.post(
+        "https://fertilizerrecommendationapi-2.onrender.com/post",
+        data
+      );
       console.log(response.data);
-      const recommendedFertilizers = response.data.prediction;  // Assuming response contains the recommendations
+      const recommendedFertilizers = response.data.prediction; // Assuming response contains the recommendations
       setFertilizerRecommendation(recommendedFertilizers);
     } catch (error) {
       console.error("Error fetching fertilizer recommendations", error);
+    } finally {
+      setIsLoading(false); // Set loading to false after request is complete
     }
   };
 
@@ -79,19 +122,28 @@ const FertilizerRecommendation = () => {
     <div className="space-y-6 p-4 md:p-8 ">
       <Card className="w-full max-w-3xl mx-auto bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
         <CardHeader>
-          <CardTitle className='text-white'>Fertilizer Recommendation</CardTitle>
-          <CardDescription className='text-primmary'>Enter the required crop and soil types and toggle the switch for manual input.</CardDescription>
+          <CardTitle className="text-white">
+            Fertilizer Recommendation
+          </CardTitle>
+          <CardDescription className="text-primmary text-[#dee42f]">
+            Enter the required crop and soil types and toggle the switch for
+            manual input.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Toggle between manual input and sensor-based */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 text-white">
             <Label htmlFor="manual-toggle">Manual Input</Label>
-            <Switch id="manual-toggle" checked={manualInput} onCheckedChange={setManualInput} />
+            <Switch
+              id="manual-toggle"
+              checked={manualInput}
+              onCheckedChange={setManualInput}
+            />
           </div>
 
           {/* Manual input fields */}
           {manualInput && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#dee42f]">
               <div className="space-y-2">
                 <Label htmlFor="N">Nitrogen (N)</Label>
                 <Input
@@ -156,11 +208,11 @@ const FertilizerRecommendation = () => {
           )}
 
           {/* Crop Type Dropdown */}
-          <div className="space-y-2">
+          <div className="space-y-2 text-[#dee42f]">
             <Label htmlFor="cropType">Crop Type</Label>
             <Popover open={cropPopoverOpen} onOpenChange={setCropPopoverOpen}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-between">
+                <Button variant="outline" className="w-full justify-between text-black">
                   {cropType || "Select Crop Type"}
                 </Button>
               </PopoverTrigger>
@@ -186,11 +238,11 @@ const FertilizerRecommendation = () => {
           </div>
 
           {/* Soil Type Dropdown */}
-          <div className="space-y-2">
+          <div className="space-y-2 text-[#dee42f]">
             <Label htmlFor="soilType">Soil Type</Label>
             <Popover open={soilPopoverOpen} onOpenChange={setSoilPopoverOpen}>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-between">
+                <Button variant="outline" className="w-full justify-between text-black">
                   {soilType || "Select Soil Type"}
                 </Button>
               </PopoverTrigger>
@@ -216,26 +268,26 @@ const FertilizerRecommendation = () => {
           </div>
 
           {/* Button */}
-          <Button onClick={handleRecommend} className="w-full">Suggest Fertilizer</Button>
+          <Button onClick={handleRecommend} className="w-full">
+            {isLoading ? <SpinnerWithStyle /> : "Suggest Fertilizer"}
+          </Button>
         </CardContent>
       </Card>
 
       {/* Recommendations Section */}
       {fertilizerRecommendation && (
-        <Card className="w-full max-w-4xl mx-auto">
+        <Card className="w-full max-w-4xl mx-auto bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
           <CardHeader>
-            <CardTitle>Fertilizer Recommendation</CardTitle>
-            <CardDescription>Based on the input values</CardDescription>
+            <CardTitle className="text-white">Fertilizer Recommendation</CardTitle>
+            <CardDescription className="text-primary">Based on the input values</CardDescription>
           </CardHeader>
           <CardContent>
-            <Card className="w-full">
+            <Card className="w-full bg-white">
               <CardHeader>
                 <CardTitle>{fertilizerRecommendation}</CardTitle>
                 <CardDescription>Amount: (Adjust as needed)</CardDescription>
               </CardHeader>
-              <CardContent>
-                <Button className="mt-4 w-full">Purchase Fertilizer</Button>
-              </CardContent>
+              
             </Card>
           </CardContent>
         </Card>

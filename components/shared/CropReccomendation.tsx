@@ -13,12 +13,14 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import axios from "axios";
+import SpinnerWithStyle from "./Spinner";
 
 export default function CropRecommendation() {
   const [rainfall, setRainfall] = useState<number>(190);
   const [ph, setPh] = useState<number>(6.5);
   const [manualInput, setManualInput] = useState<boolean>(false); // Toggle state
   const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   // State for manual input
   const [N, setN] = useState<number>(77);
@@ -31,6 +33,7 @@ export default function CropRecommendation() {
   const handleRecommend = async () => {
    
     try {
+      setIsLoading(true);
       //fetch the data from sensors only if the manual mode is off
       if (!manualInput) {
         const sensorData = await fetch(
@@ -64,6 +67,8 @@ export default function CropRecommendation() {
       setRecommendations(recommendedCrops);
     } catch (error) {
       console.error("Error fetching crop recommendations", error);
+    }finally {
+      setIsLoading(false); // Set loading to false after request is complete
     }
   };
 
@@ -74,18 +79,18 @@ export default function CropRecommendation() {
   const MAX_PH = 10;
 
   return (
-    <div className="space-y-6 p-4 md:p-8">
+    <div className="space-y-6 p-4 md:p-8 ">
       <Card className="w-full max-w-3xl mx-auto bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
         <CardHeader>
           <CardTitle className="text-white">Input Soil Parameters</CardTitle>
-          <CardDescription className="text-white">
+          <CardDescription className="text-[#dee42f]">
             Enter the rainfall and soil pH to get crop recommendations. Toggle
             the switch if you want to input all the values manually.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Toggle between manual input and sensor-based */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 text-white">
             <Label htmlFor="manual-toggle">Manual Input</Label>
             <Switch
               id="manual-toggle"
@@ -96,7 +101,7 @@ export default function CropRecommendation() {
 
           {/* Manual input fields */}
           {manualInput && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#dee42f]">
               <div className="space-y-2">
                 <Label htmlFor="N">Nitrogen (N)</Label>
                 <Input
@@ -151,7 +156,7 @@ export default function CropRecommendation() {
           )}
 
           {/* Rainfall Section */}
-          <div className="space-y-2">
+          <div className="space-y-2 text-[#dee42f]">
             <Label htmlFor="rainfall">Annual Rainfall (mm)</Label>
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
               <Slider
@@ -183,7 +188,7 @@ export default function CropRecommendation() {
           </div>
 
           {/* pH Section */}
-          <div className="space-y-2">
+          <div className="space-y-2 text-[#dee42f]">
             <Label htmlFor="ph">Soil pH</Label>
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
               <Slider
@@ -213,17 +218,17 @@ export default function CropRecommendation() {
 
           {/* Button */}
           <Button onClick={handleRecommend} className="w-full">
-            Get Recommendations
+          {isLoading ? <SpinnerWithStyle /> : "Suggest Crop"}
           </Button>
         </CardContent>
       </Card>
 
       {/* Recommendations Section */}
       {recommendations.length > 0 && (
-        <Card className="w-full max-w-4xl mx-auto">
+        <Card className="w-full max-w-4xl mx-auto bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
           <CardHeader>
-            <CardTitle>Crop Recommendations</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white">Crop Recommendations</CardTitle>
+            <CardDescription className="text-[#dee42f]">
               Based on{" "}
               <span className="text-green-500 font-semibold">{rainfall}mm</span>{" "}
               annual rainfall and soil pH{" "}

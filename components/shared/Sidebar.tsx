@@ -25,7 +25,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
     >
       <div className="flex items-center justify-between h-16 px-6 border-b">
-        <h1 className="text-xl font-semibold">Farm Dashboard</h1>
+        <h1 className="text-xl font-semibold text-[#dee42f]">Farm Dashboard</h1>
         <Button
           variant="ghost"
           size="icon"

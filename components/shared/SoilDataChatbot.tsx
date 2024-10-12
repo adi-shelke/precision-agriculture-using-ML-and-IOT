@@ -70,7 +70,7 @@ export default function SoilDataChatbot() {
     <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
       <CardHeader>
         <CardTitle className="text-white">Soil Data Chatbot</CardTitle>
-        <CardDescription className="text-primary">Ask questions about your soil data</CardDescription>
+        <CardDescription className="text-primary text-[#dee42f]">Ask questions about your soil data</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-[400px] flex flex-col">
@@ -96,8 +96,8 @@ export default function SoilDataChatbot() {
               ))
             ) : (
               <div className="flex items-center justify-center h-full text-muted-foreground">
-                <MessageSquare className="h-8 w-8 mr-2 text-white" />
-                <span className="text-white">No messages yet. Start a conversation!</span>
+                <MessageSquare className="h-8 w-8 mr-2 text-[#dee42f]" />
+                <span className="text-[#dee42f]">No messages yet. Start a conversation!</span>
               </div>
             )}
           </ScrollArea>
@@ -107,11 +107,11 @@ export default function SoilDataChatbot() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSend()}
-              className="flex-1 text-white"
+              className="flex-1 text-white placeholder:text-[#dee42f]"
               disabled={loading}
             />
-            <Button onClick={handleSend} disabled={loading}>
-              <Send className="h-4 w-4 mr-2" />
+            <Button onClick={handleSend} disabled={loading} className="text-[#dee42f]">
+              <Send className="h-4 w-4 mr-2 text-[#dee42f]" />
               {loading ? "Sending..." : "Send"}
             </Button>
           </div>
