@@ -15,7 +15,7 @@ const RealtimeMonitoring = () => {
       <Card className="bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
         <CardHeader>
           <CardTitle className="text-white">Soil Health Updates</CardTitle>
-          <CardDescription className="text-primary">Last updated: 2 days ago</CardDescription>
+          <CardDescription className="text-primary text-[#dee42f]">Last updated: 2 days ago</CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-white">
