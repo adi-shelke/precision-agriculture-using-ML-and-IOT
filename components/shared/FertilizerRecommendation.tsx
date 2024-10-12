@@ -76,11 +76,11 @@ const FertilizerRecommendation = () => {
   };
 
   return (
-    <div className="space-y-6 p-4 md:p-8">
-      <Card className="w-full max-w-3xl mx-auto">
+    <div className="space-y-6 p-4 md:p-8 ">
+      <Card className="w-full max-w-3xl mx-auto bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
         <CardHeader>
-          <CardTitle>Fertilizer Recommendation</CardTitle>
-          <CardDescription>Enter the required crop and soil types and toggle the switch for manual input.</CardDescription>
+          <CardTitle className='text-white'>Fertilizer Recommendation</CardTitle>
+          <CardDescription className='text-primmary'>Enter the required crop and soil types and toggle the switch for manual input.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Toggle between manual input and sensor-based */}

@@ -15,7 +15,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ setSidebarOpen }) => {
   return (
-    <header className="flex justify-between items-center h-16 px-6 bg-white border-b">
+    <header className="flex justify-between items-center h-16 px-6 bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b] border-b">
       <Button
         variant="ghost"
         size="icon"

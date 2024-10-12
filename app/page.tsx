@@ -26,7 +26,7 @@ export default function Dashboard() {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
-      <div className="flex-1">
+      <div className="flex-1 bg-gradient-to-br from-[#bac89e] via-[#739b24] to-white bg-[url('/images/bg.jpg')] bg-cover">
         <Header setSidebarOpen={setSidebarOpen} />
         <main className="p-6">
           <TabContent

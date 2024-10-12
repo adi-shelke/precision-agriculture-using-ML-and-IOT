@@ -20,7 +20,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
+        "fixed inset-y-0 left-0 z-50 w-64 bg-[#8dca3c] shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}
     >
@@ -46,8 +46,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className={cn(
               "flex items-center w-full px-6 py-3 text-left",
               activeTab === tab.id
-                ? "bg-gray-100 text-primary"
-                : "text-gray-600 hover:bg-gray-50"
+                ? "bg-[#1a751a] text-white font-semibold border-white"
+                : "text-white hover:bg-[#3f872e]"
             )}
           >
             {tab.label}

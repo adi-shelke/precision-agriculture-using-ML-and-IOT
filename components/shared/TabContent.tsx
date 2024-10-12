@@ -5,16 +5,16 @@ import CropRecommendation from "@/components/shared/CropReccomendation";
 import RealtimeMonitoring from "./RealtimeMonitoring";
 import FertilizerRecommendation from "./FertilizerRecommendation";
 import SoilDataChatbot from "./SoilDataChatbot";
+import Image from 'next/image';
 
 interface TabContentProps {
   activeTab: string;
 }
 
 export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
-  const [soilData, setSoilData] = useState<any>(null); // State to hold soil data
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [soilData, setSoilData] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch soil data from the API
   useEffect(() => {
     const fetchSoilData = async () => {
       try {
@@ -22,74 +22,82 @@ export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
         const sensorDataJson = await response.json();
         const { nitrogen, potassium, temperature, humidity, sodium, moisture } = sensorDataJson;
 
-        // Set the state with the fetched data
         setSoilData({
           nitrogen,
           potassium,
           humidity,
           moisture,
-          temperature, // If you want to use this later
-          sodium,      // If you want to use this later
+          temperature,
+          sodium,
         });
       } catch (error) {
         console.error("Error fetching soil data:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetch is complete
+        setLoading(false);
       }
     };
 
     fetchSoilData();
-  }, []); // Empty dependency array to run only once when the component mounts
+  }, []);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="spinner"></div> {/* Use the spinner CSS class */}
+      <div className="flex justify-center items-center min-h-screen bg-[#f0e6d2]">
+        <div className="w-12 h-12 border-4 border-[#5c8c4d] border-t-[#f0e6d2] rounded-full animate-spin"></div>
       </div>
-    ); // Render loading spinner
+    );
   }
 
-  // Render based on the active tab
+  const renderOverview = () => (
+    <div className="space-y-4">
+      <div className="relative w-full h-60 mb-6">
+        <Image
+          src="/images/overview.jpg"
+          alt="Agriculture landscape"
+          layout="fill"
+          objectFit="cover"
+          className="rounded-lg"
+        />
+      </div>
+      <h2 className="text-2xl font-semibold mb-4 text-[#d8cc27]">Soil Health Overview</h2>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <SoilParameter
+          name="Nitrogen"
+          value={soilData.nitrogen}
+          unit="%"
+          icon={<Leaf className="h-4 w-4 text-white" />}
+        />
+        <SoilParameter
+          name="Phosphorus"
+          value={soilData.sodium || 0}
+          unit="%"
+          icon={<Leaf className="h-4 w-4 text-white" />}
+        />
+        <SoilParameter
+          name="Potassium"
+          value={soilData.potassium}
+          unit="%"
+          icon={<Leaf className="h-4 w-4 text-white" />}
+        />
+        <SoilParameter
+          name="Moisture"
+          value={soilData.moisture}
+          unit="%"
+          icon={<Droplet className="h-4 w-4 text-white" />}
+        />
+        <SoilParameter
+          name="Humidity"
+          value={soilData.humidity}
+          unit="%"
+          icon={<Droplet className="h-4 w-4 text-white" />}
+        />
+      </div>
+    </div>
+  );
+
   switch (activeTab) {
     case "overview":
-      return (
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold mb-4">Soil Health Overview</h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <SoilParameter
-              name="Nitrogen"
-              value={soilData.nitrogen}
-              unit="%"
-              icon={<Leaf className="h-4 w-4 text-muted-foreground" />}
-            />
-            <SoilParameter
-              name="Phosphorus"
-              value={soilData.sodium || 0} // Default to 0 if phosphorus not available
-              unit="%"
-              icon={<Leaf className="h-4 w-4 text-muted-foreground" />}
-            />
-            <SoilParameter
-              name="Potassium"
-              value={soilData.potassium}
-              unit="%"
-              icon={<Leaf className="h-4 w-4 text-muted-foreground" />}
-            />
-            <SoilParameter
-              name="Moisture"
-              value={soilData.moisture}
-              unit="%"
-              icon={<Droplet className="h-4 w-4 text-muted-foreground" />}
-            />
-            <SoilParameter
-              name="Humidity" // New card for Humidity
-              value={soilData.humidity} // Set the humidity value
-              unit="%"
-              icon={<Droplet className="h-4 w-4 text-muted-foreground" />} // Use an appropriate icon
-            />
-            {/* Additional parameters here */}
-          </div>
-        </div>
-      );
+      return renderOverview();
     case "crops":
       return <CropRecommendation />;
     case "monitoring":

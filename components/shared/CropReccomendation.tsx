@@ -75,10 +75,10 @@ export default function CropRecommendation() {
 
   return (
     <div className="space-y-6 p-4 md:p-8">
-      <Card className="w-full max-w-3xl mx-auto">
+      <Card className="w-full max-w-3xl mx-auto bg-gradient-to-br from-[#4a6320] via-[#849e30] to-[#2e5b1b]">
         <CardHeader>
-          <CardTitle>Input Soil Parameters</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-white">Input Soil Parameters</CardTitle>
+          <CardDescription className="text-white">
             Enter the rainfall and soil pH to get crop recommendations. Toggle
             the switch if you want to input all the values manually.
           </CardDescription>
