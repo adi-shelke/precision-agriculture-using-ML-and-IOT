@@ -15,11 +15,16 @@ import { Switch } from "@/components/ui/switch";
 import axios from "axios";
 import SpinnerWithStyle from "./Spinner";
 
+interface CropRecommendation {
+  crop: string;
+  suitability: number;
+}
+
 export default function CropRecommendation() {
   const [rainfall, setRainfall] = useState<number>(190);
   const [ph, setPh] = useState<number>(6.5);
   const [manualInput, setManualInput] = useState<boolean>(false); // Toggle state
-  const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [recommendations, setRecommendations] = useState<CropRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   // State for manual input

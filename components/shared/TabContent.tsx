@@ -7,12 +7,20 @@ import FertilizerRecommendation from "./FertilizerRecommendation";
 import SoilDataChatbot from "./SoilDataChatbot";
 import Image from 'next/image';
 
+interface SoilData {
+  nitrogen: number;
+  potassium: number;
+  humidity: number;
+  moisture: number;
+  temperature: number;
+  sodium: number;
+}
 interface TabContentProps {
   activeTab: string;
 }
 
 export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
-  const [soilData, setSoilData] = useState<any>(null);
+  const [soilData, setSoilData] = useState<SoilData | null>(null); // Update state type
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -63,31 +71,31 @@ export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <SoilParameter
           name="Nitrogen"
-          value={soilData.nitrogen}
+          value={soilData?.nitrogen || 0}
           unit="%"
           icon={<Leaf className="h-4 w-4 text-white" />}
         />
         <SoilParameter
           name="Phosphorus"
-          value={soilData.sodium || 0}
+          value={soilData?.sodium || 0}
           unit="%"
           icon={<Leaf className="h-4 w-4 text-white" />}
         />
         <SoilParameter
           name="Potassium"
-          value={soilData.potassium}
+          value={soilData?.potassium || 0}
           unit="%"
           icon={<Leaf className="h-4 w-4 text-white" />}
         />
         <SoilParameter
           name="Moisture"
-          value={soilData.moisture}
+          value={soilData?.moisture || 0}
           unit="%"
           icon={<Droplet className="h-4 w-4 text-white" />}
         />
         <SoilParameter
           name="Humidity"
-          value={soilData.humidity}
+          value={soilData?.humidity || 0}
           unit="%"
           icon={<Droplet className="h-4 w-4 text-white" />}
         />
