@@ -87,6 +87,7 @@ export default function CropDiseasePredictorForm() {
       const data = await response.json();
       setResult(data.prediction);
     } catch (err) {
+        console.error("Error predicting disease:", err);
       setError(
         "An error occurred while predicting the disease. Please try again."
       );
