@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { SoilParameter } from "./SoilParameters";
 import { Droplet, Leaf } from "lucide-react";
 import CropRecommendation from "@/components/shared/CropReccomendation";
 import RealtimeMonitoring from "./RealtimeMonitoring";
 import FertilizerRecommendation from "./FertilizerRecommendation";
 import SoilDataChatbot from "./SoilDataChatbot";
-import Image from 'next/image';
+import CropDiseasePredictorForm from "./CropDisease";
+import Image from "next/image";
 
 interface SoilData {
   nitrogen: number;
@@ -26,9 +27,12 @@ export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
   useEffect(() => {
     const fetchSoilData = async () => {
       try {
-        const response = await fetch("https://hardwaremodule.onrender.com/latest-reading/sensor_1");
+        const response = await fetch(
+          "https://hardwaremodule.onrender.com/latest-reading/sensor_1"
+        );
         const sensorDataJson = await response.json();
-        const { nitrogen, potassium, temperature, humidity, sodium, moisture } = sensorDataJson;
+        const { nitrogen, potassium, temperature, humidity, sodium, moisture } =
+          sensorDataJson;
 
         setSoilData({
           nitrogen,
@@ -67,7 +71,9 @@ export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
           className="rounded-lg"
         />
       </div>
-      <h2 className="text-2xl font-semibold mb-4 text-[#d8cc27]">Soil Health Overview</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-[#d8cc27]">
+        Soil Health Overview
+      </h2>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <SoilParameter
           name="Nitrogen"
@@ -112,6 +118,8 @@ export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
       return <RealtimeMonitoring />;
     case "fertilizer":
       return <FertilizerRecommendation />;
+    case "cropdisease":
+      return <CropDiseasePredictorForm />;
     case "chatbot":
       return <SoilDataChatbot />;
     default:
