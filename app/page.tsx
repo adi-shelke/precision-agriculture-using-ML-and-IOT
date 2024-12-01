@@ -8,7 +8,7 @@ import { TabContent } from "@/components/shared/TabContent";
 const tabs = [
   { id: "overview", label: "Overview" },
   { id: "crops", label: "Crop Recommendations" },
-  { id: "monitoring", label: "Real-Time Monitoring" },
+  // { id: "monitoring", label: "Real-Time Monitoring" },
   { id: "fertilizer", label: "Fertilizer Suggestions" },
   { id: "cropdisease", label: "Crop Disease Predictor" },
   { id: "chatbot", label: "ChatBot" },

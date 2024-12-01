@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SoilParameter } from "./SoilParameters";
-import { Droplet, Leaf } from "lucide-react";
+import { Droplet, Leaf, Sun } from "lucide-react";
 import CropRecommendation from "@/components/shared/CropReccomendation";
 import RealtimeMonitoring from "./RealtimeMonitoring";
 import FertilizerRecommendation from "./FertilizerRecommendation";
@@ -92,6 +92,12 @@ export const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
           value={soilData?.potassium || 0}
           unit=" mg/kg"
           icon={<Leaf className="h-4 w-4 text-white" />}
+        />
+        <SoilParameter
+          name="Temperature"
+          value={soilData?.temperature || 0}
+          unit="°C"
+          icon={<Sun className="h-4 w-4 text-white" />}
         />
         <SoilParameter
           name="Moisture"
